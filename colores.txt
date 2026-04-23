@@ -1,0 +1,89 @@
+BUSQUE EN INTERNET PARA LOS COLORES, ESTE .TXT ESTA SACADO DE INTERNET
+
+
+============================================================
+COLORES ANSI PARA COUT EN C++
+Uso: cout << "\033[CODIGO m" << "texto" << "\033[0m";
+============================================================
+
+---- COLORES DE TEXTO ----
+"\033[30m"  -> Negro
+"\033[31m"  -> Rojo
+"\033[32m"  -> Verde
+"\033[33m"  -> Amarillo
+"\033[34m"  -> Azul
+"\033[35m"  -> Morado
+"\033[36m"  -> Cyan
+"\033[37m"  -> Blanco
+"\033[90m"  -> Gris oscuro
+"\033[91m"  -> Rojo brillante
+"\033[92m"  -> Verde brillante
+"\033[93m"  -> Amarillo brillante
+"\033[94m"  -> Azul brillante
+"\033[95m"  -> Morado brillante
+"\033[96m"  -> Cyan brillante
+"\033[97m"  -> Blanco brillante
+
+---- COLORES DE FONDO ----
+"\033[40m"  -> Fondo negro
+"\033[41m"  -> Fondo rojo
+"\033[42m"  -> Fondo verde
+"\033[43m"  -> Fondo amarillo
+"\033[44m"  -> Fondo azul
+"\033[45m"  -> Fondo morado
+"\033[46m"  -> Fondo cyan
+"\033[47m"  -> Fondo blanco
+"\033[100m" -> Fondo gris oscuro
+"\033[101m" -> Fondo rojo brillante
+"\033[102m" -> Fondo verde brillante
+"\033[103m" -> Fondo amarillo brillante
+"\033[104m" -> Fondo azul brillante
+"\033[105m" -> Fondo morado brillante
+"\033[106m" -> Fondo cyan brillante
+"\033[107m" -> Fondo blanco brillante
+
+---- ESTILOS DE TEXTO ----
+"\033[0m"   -> Reset (vuelve al color normal) - USAR SIEMPRE AL FINAL
+"\033[1m"   -> Negrita
+"\033[2m"   -> Texto tenue (más oscuro)
+"\033[3m"   -> Cursiva
+"\033[4m"   -> Subrayado
+"\033[5m"   -> Parpadeante
+"\033[7m"   -> Invertir colores (el fondo pasa a ser el texto y viceversa)
+"\033[8m"   -> Texto invisible
+"\033[9m"   -> Tachado
+
+---- COMBINAR ESTILOS ----
+Se pueden combinar separando con punto y coma:
+"\033[1;31m"    -> Negrita + Rojo
+"\033[1;33m"    -> Negrita + Amarillo
+"\033[4;32m"    -> Subrayado + Verde
+"\033[1;42m"    -> Negrita + Fondo verde
+"\033[1;31;43m" -> Negrita + Rojo + Fondo amarillo
+
+---- EJEMPLOS DE USO ----
+cout << "\033[31m" << "Error" << "\033[0m" << endl;
+cout << "\033[32m" << "Correcto" << "\033[0m" << endl;
+cout << "\033[1;33m" << "Aviso importante" << "\033[0m" << endl;
+cout << "\033[44m" << "\033[97m" << "Texto blanco fondo azul" << "\033[0m" << endl;
+cout << "\033[5;31m" << "Texto parpadeante rojo" << "\033[0m" << endl;
+
+---- COLORES RGB PERSONALIZADOS (256 colores) ----
+Texto:  "\033[38;5;NUMEROm"   (NUMERO del 0 al 255)
+Fondo:  "\033[48;5;NUMEROm"   (NUMERO del 0 al 255)
+
+Ejemplos:
+"\033[38;5;208m"  -> Texto naranja
+"\033[38;5;129m"  -> Texto violeta
+"\033[38;5;51m"   -> Texto turquesa
+"\033[48;5;226m"  -> Fondo amarillo neón
+"\033[48;5;196m"  -> Fondo rojo intenso
+
+---- IMPORTANTE EN WINDOWS (Visual Studio) ----
+Añadir al principio del main para activar colores:
+
+#include <windows.h>
+SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE),
+    ENABLE_PROCESSED_OUTPUT | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+
+============================================================
