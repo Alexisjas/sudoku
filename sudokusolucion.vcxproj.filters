@@ -15,33 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\Tablero.cpp">
+    <ClCompile Include="cpp\Celda.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\ReglasSudoku.cpp">
+    <ClCompile Include="cpp\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\Multiconjunto.cpp">
+    <ClCompile Include="cpp\Multiconjunto.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\main.cpp">
+    <ClCompile Include="cpp\ReglasSudoku.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\Celda.cpp">
+    <ClCompile Include="cpp\Tablero.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Downloads\Trabajo hecho\Tablero.h">
+    <ClInclude Include="cpp\Celda.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Downloads\Trabajo hecho\ReglasSudoku.h">
+    <ClInclude Include="cpp\Checkml.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Downloads\Trabajo hecho\Multiconjunto.h">
+    <ClInclude Include="cpp\colors.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Downloads\Trabajo hecho\Celda.h">
+    <ClInclude Include="cpp\ListaSudokus.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\Multiconjunto.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\ReglasSudoku.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\Tablero.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

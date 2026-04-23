@@ -19,17 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\Celda.cpp" />
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\main.cpp" />
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\Multiconjunto.cpp" />
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\ReglasSudoku.cpp" />
-    <ClCompile Include="..\..\..\Downloads\Trabajo hecho\Tablero.cpp" />
+    <ClCompile Include="cpp\Celda.cpp" />
+    <ClCompile Include="cpp\main.cpp" />
+    <ClCompile Include="cpp\Multiconjunto.cpp" />
+    <ClCompile Include="cpp\ReglasSudoku.cpp" />
+    <ClCompile Include="cpp\Tablero.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Downloads\Trabajo hecho\Celda.h" />
-    <ClInclude Include="..\..\..\Downloads\Trabajo hecho\Multiconjunto.h" />
-    <ClInclude Include="..\..\..\Downloads\Trabajo hecho\ReglasSudoku.h" />
-    <ClInclude Include="..\..\..\Downloads\Trabajo hecho\Tablero.h" />
+    <ClInclude Include="cpp\Celda.h" />
+    <ClInclude Include="cpp\Checkml.h" />
+    <ClInclude Include="cpp\colors.h" />
+    <ClInclude Include="cpp\ListaSudokus.h" />
+    <ClInclude Include="cpp\Multiconjunto.h" />
+    <ClInclude Include="cpp\ReglasSudoku.h" />
+    <ClInclude Include="cpp\Tablero.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
