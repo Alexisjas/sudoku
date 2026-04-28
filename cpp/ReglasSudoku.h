@@ -43,6 +43,7 @@ private:
     void limpiar_bloqueadas_zona(int fila, int columna);
     //comprobar una sola celda y añadirla si está bloqueada
     void comprobar_celda_bloqueada(int fila, int columna);
+        
 public:
     
     ReglasSudoku();
