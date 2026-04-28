@@ -1,4 +1,5 @@
 #include "ListaSudokus.h"
+#include <cassert>
 #include <iostream>
 using namespace std;
 
@@ -21,19 +22,62 @@ const ReglasSudoku& ListaSudokus::dame_sudoku(int i) const {
 }
 void ListaSudokus::insertar(const ReglasSudoku& sudoku) {
 	if (elementos == capacidad) {
+		ReglasSudoku** nuevo = new ReglasSudoku*[capacidad + 20];
+		capacidad = capacidad + 20;
+
 		for (int i = 0; i < elementos; i++)
 		{
-			ReglasSudoku sudokunuevo;
+			nuevo[i] = listasudoku[i];
 		}
-	}
+		delete[] listasudoku;
 
+		listasudoku = nuevo;
+	}
+		int pos = 0;
+
+		while (pos < elementos && *listasudoku[pos] < sudoku) {
+			pos++;
+		}
+
+		for (int i = elementos; i > pos; i--)
+		{
+			listasudoku[i] = listasudoku[i - 1];
+		}
+
+		listasudoku[pos] = new ReglasSudoku(sudoku);
+
+		elementos = elementos + 1;
 }
+
 void ListaSudokus::eliminar(int pos) {
+	assert(pos >= 0 && pos < elementos);
+
+	delete listasudoku[pos];
+
+	for (int i = pos; i + 1 < elementos; i++)
+	{
+		listasudoku[i] = listasudoku[i + 1];
+	}
+	listasudoku[elementos - 1] = nullptr;
+	elementos = elementos - 1;
 
 }
 
 void ListaSudokus::mostrar_lista() const {
+	for (int i = 0; i < elementos; i++)
+	{
+		cout << i + 1 << ": Sudoku con " << contar_celdas_vacias(*listasudoku[i])
+			<< " casillas vacias" << endl;
+		for (int j = 1; j <= dame_sudoku(i).dame_dimension(); j++)
+		{
+			cout << "celdas con " << j << " valores posibles: " << num_celdas_con_k_posibles(*listasudoku[i], j) << endl;
+		}
+	}
+}
 
+
+ReglasSudoku& ListaSudokus::operator[](int indice) {
+	return *listasudoku[indice];
 }
 
 bool operator<(const ReglasSudoku& s1, const ReglasSudoku& s2) {
@@ -77,6 +121,7 @@ bool operator<(const ReglasSudoku& s1, const ReglasSudoku& s2) {
 bool operator==(const ReglasSudoku& s1, const ReglasSudoku& s2) {
     return !(s1 < s2) && !(s2 < s1);
 }
+
 
 int contar_celdas_vacias(const ReglasSudoku& s1){
 	int contador = 0;
