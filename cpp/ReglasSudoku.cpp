@@ -11,6 +11,23 @@ ReglasSudoku::ReglasSudoku() {
     num_bloqueadas = 0;
     info_valores_no_validos.nFilas = 0;
     info_valores_no_validos.nColumnas = 0;
+    for (int i = 0; i < MAX_BLOQUEADAS; i++) {
+        celdas_bloqueadas[i] = nullptr;
+    }
+}
+
+ReglasSudoku::ReglasSudoku(const ReglasSudoku& sudoku) {
+    num_bloqueadas = 0;
+
+    for (int i = 0; i < MAX_BLOQUEADAS; i++) {
+        celdas_bloqueadas[i] = nullptr;
+    }
+
+    *this = sudoku;
+}
+
+ReglasSudoku::~ReglasSudoku() {
+    liberar_bloqueadas();
 }
 
 
@@ -41,8 +58,8 @@ int ReglasSudoku::dame_num_celdas_bloqueadas() const {
 
 // te da la fila y columna de la bloqueada que esta en la posición p en la lista, p va de 1 a dame_num_celdas_bloq
 void ReglasSudoku::dame_celda_bloqueada(int p, int& fila, int& columna) const {
-    fila = celdas_bloqueadas[p - 1].fila;
-    columna = celdas_bloqueadas[p - 1].columna;
+    fila = celdas_bloqueadas[p - 1]->fila;
+    columna = celdas_bloqueadas[p - 1]->columna;
 }
 
 
@@ -160,8 +177,8 @@ bool ReglasSudoku::esta_en_bloqueadas(int fila, int columna) const {
 
     // busca la celda en la lista
     while (i < num_bloqueadas && !encontrada) {
-        if (celdas_bloqueadas[i].fila == fila &&
-            celdas_bloqueadas[i].columna == columna) {
+        if (celdas_bloqueadas[i]->fila == fila &&
+            celdas_bloqueadas[i]->columna == columna) {
             encontrada = true;
         }
         else {
@@ -179,8 +196,8 @@ void ReglasSudoku::eliminar_de_bloqueadas(int fila, int columna) {
 
     // busca la celda en la lista
     while (i < num_bloqueadas && !encontrada) {
-        if (celdas_bloqueadas[i].fila == fila &&
-            celdas_bloqueadas[i].columna == columna) {
+        if (celdas_bloqueadas[i]->fila == fila &&
+            celdas_bloqueadas[i]->columna == columna) {
             encontrada = true;
         }
         else {
@@ -190,10 +207,14 @@ void ReglasSudoku::eliminar_de_bloqueadas(int fila, int columna) {
 
     // si la encuentra, la elimina desplazando el array
     if (encontrada) {
+        delete celdas_bloqueadas[i];
+
         for (int j = i; j < num_bloqueadas - 1; j++) {
             celdas_bloqueadas[j] = celdas_bloqueadas[j + 1];
         }
-        num_bloqueadas--; // reduce el numero de bloqueadas
+
+        celdas_bloqueadas[num_bloqueadas - 1] = nullptr;
+        num_bloqueadas--;
     }
 }
 
@@ -245,8 +266,9 @@ void ReglasSudoku::comprobar_celda_bloqueada(int fila, int columna) {
         if (!hay_valor_posible) {
             // evita añadirla dos veces
             if (!esta_en_bloqueadas(fila, columna)) {
-                celdas_bloqueadas[num_bloqueadas].fila = fila;
-                celdas_bloqueadas[num_bloqueadas].columna = columna;
+                celdas_bloqueadas[num_bloqueadas] = new tPosicion;
+                celdas_bloqueadas[num_bloqueadas]->fila = fila;
+                celdas_bloqueadas[num_bloqueadas]->columna = columna;
                 num_bloqueadas++; // añade la nueva bloqueada
             }
         }
@@ -305,37 +327,37 @@ bool ReglasSudoku::quita_valor(int fila, int columna) {
 }
 
 
-//devuelve el sudoku a original, reinicia todos los multiconjuntos a vacio, las celdas ocupadas se borran y las originales se mantienen y se vuelven a poner en novlaidos
-void ReglasSudoku::reset() {
-    int dim = dame_dimension();
-    contador = 0;
-    num_bloqueadas = 0;
+    //devuelve el sudoku a original, reinicia todos los multiconjuntos a vacio, las celdas ocupadas se borran y las originales se mantienen y se vuelven a poner en novlaidos
+    void ReglasSudoku::reset() {
+        int dim = dame_dimension();
+        contador = 0;
+        liberar_bloqueadas();
 
-    // vaciamos todos los multiconjuntos
-    for (int f = 1; f <= dim; f++) {
-        for (int c = 1; c <= dim; c++) {
-            info_valores_no_validos.no_validos[f - 1][c - 1] = MultiConjunto();
-        }
-    }
-
-    // dejamos solo las originales
-    for (int f = 1; f <= dim; f++) {
-        for (int c = 1; c <= dim; c++) {
-            Celda celda = tablero.dame_celda(f, c);
-
-            if (celda.es_ocupada()) {
-                // las cupadas se quitan
-                Celda celda_vacia;
-                tablero.set_celda(f, c, celda_vacia);
-
-            }
-            else if (celda.es_original()) {
-                actualizar_no_validos_poner(f, c, celda.dame_valor());
-                contador++;
+        // vaciamos todos los multiconjuntos
+        for (int f = 1; f <= dim; f++) {
+            for (int c = 1; c <= dim; c++) {
+                info_valores_no_validos.no_validos[f - 1][c - 1] = MultiConjunto();
             }
         }
+
+        // dejamos solo las originales
+        for (int f = 1; f <= dim; f++) {
+            for (int c = 1; c <= dim; c++) {
+                Celda celda = tablero.dame_celda(f, c);
+
+                if (celda.es_ocupada()) {
+                    // las cupadas se quitan
+                    Celda celda_vacia;
+                    tablero.set_celda(f, c, celda_vacia);
+
+                }
+                else if (celda.es_original()) {
+                    actualizar_no_validos_poner(f, c, celda.dame_valor());
+                    contador++;
+                }
+            }
+        }
     }
-}
 
 //ponemos directamente las celdas que solo tienen 1 numero posible, se repite hasta que: se completa, ya no hay mas con 1 valor o se bloquea
 void ReglasSudoku::autocompletar() {
@@ -375,12 +397,20 @@ void ReglasSudoku::carga_sudoku(ifstream& archivo) {
     int dim;
     archivo >> dim;  // primero el numero de la dimension
 
+    liberar_bloqueadas();
+
     // inicia el tablero con esa dimension
     tablero = Tablero(dim);
     info_valores_no_validos.nFilas = dim;
     info_valores_no_validos.nColumnas = dim;
     contador = 0;
-    num_bloqueadas = 0;
+
+    // vaciar no_validos
+    for (int f = 1; f <= dim; f++) {
+        for (int c = 1; c <= dim; c++) {
+            info_valores_no_validos.no_validos[f - 1][c - 1] = MultiConjunto();
+        }
+    }
 
     // lee cada valor y lo coloca
     for (int f = 1; f <= dim; f++) {
@@ -403,4 +433,38 @@ void ReglasSudoku::carga_sudoku(ifstream& archivo) {
             }
         }
     }
+}
+
+void ReglasSudoku::liberar_bloqueadas() {
+    for (int i = 0; i < num_bloqueadas; i++)
+    {
+        delete celdas_bloqueadas[i];
+        celdas_bloqueadas[i] = nullptr;
+    }
+    num_bloqueadas = 0;
+}
+
+ReglasSudoku& ReglasSudoku::operator=(const ReglasSudoku& reglas) {
+    if (this != &reglas) {
+
+        liberar_bloqueadas();
+
+        // copiar atributos
+        tablero = reglas.tablero;
+        contador = reglas.contador;
+        num_bloqueadas = reglas.num_bloqueadas;
+        info_valores_no_validos = reglas.info_valores_no_validos;
+
+        // inicializar array
+        for (int i = 0; i < MAX_BLOQUEADAS; i++) {
+            celdas_bloqueadas[i] = nullptr;
+        }
+
+        // copiar bloqueadas
+        for (int i = 0; i < num_bloqueadas; i++) {
+            celdas_bloqueadas[i] = new tPosicion(*reglas.celdas_bloqueadas[i]);
+        }
+    }
+
+    return *this;
 }

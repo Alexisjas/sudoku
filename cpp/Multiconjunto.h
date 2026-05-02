@@ -16,7 +16,7 @@ class MultiConjunto {
 private:
 
     //una lista de elementos con su multiplicidad
-    tElemento elementos[MAX_ELEMENTOS];
+    tElemento elementos[MAX_ELEMENTOS] = {};
 
     //el numero de elementos que hay
     int num_elems;
