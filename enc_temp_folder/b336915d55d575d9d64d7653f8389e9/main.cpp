@@ -391,6 +391,7 @@ bool resolver_sudoku(ReglasSudoku& sudoku, int fila, int columna) {
             siguiente_fila++;
         }
 
+        // ojo:
         // fila y columna van de 0 a dim - 1 en la recursion
         // pero dame_celda usa posiciones de 1 a dim
         Celda celda = sudoku.dame_celda(fila + 1, columna + 1);

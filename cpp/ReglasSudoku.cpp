@@ -361,34 +361,46 @@ bool ReglasSudoku::quita_valor(int fila, int columna) {
 
 //ponemos directamente las celdas que solo tienen 1 numero posible, se repite hasta que: se completa, ya no hay mas con 1 valor o se bloquea
 void ReglasSudoku::autocompletar() {
-    int dim = dame_dimension();
-    bool hubo_cambio = true;
+    int dim = tablero.dame_dimension();
 
-    while (hubo_cambio && !terminado() && !bloqueo()) {
-        hubo_cambio = false;
+    int filas[MAX * MAX];
+    int columnas[MAX * MAX];
+    int valores[MAX * MAX];
+    int num_celdas = 0;
 
-        for (int f = 1; f <= dim; f++) {
-            for (int c = 1; c <= dim; c++) {
-                if (tablero.dame_celda(f, c).es_vacia()) {
+    // primero buscamos las celdas que ahora mismo tienen un unico valor posible
+    // no ponemos valores todavia, solo guardamos las posiciones
+    for (int f = 1; f <= dim; f++) {
+        for (int c = 1; c <= dim; c++) {
+            Celda celda = tablero.dame_celda(f, c);
 
-                    // ver cuantos valores posibles tiene una celda
-                    int valor_posible = 0;
-                    int num_posibles = 0;
-                    for (int v = 1; v <= dim; v++) {
-                        if (es_valor_posible(f, c, v)) {
-                            num_posibles++;
-                            valor_posible = v;  // se guarda el ultimo valor posible encontrado
-                        }
+            if (celda.es_vacia()) {
+                int num_posibles = 0;
+                int valor_unico = 0;
+
+                // contamos cuantos valores posibles tiene esta celda
+                for (int v = 1; v <= dim; v++) {
+                    if (es_valor_posible(f, c, v)) {
+                        num_posibles++;
+                        valor_unico = v;
                     }
+                }
 
-                    // si solo hay un valor posible se coloca
-                    if (num_posibles == 1) {
-                        pon_valor(f, c, valor_posible);
-                        hubo_cambio = true;  // al cambiar una celda, volvemos a seguir con el bucle
-                    }
+                // si solo tiene uno, la guardamos para ponerla despues
+                if (num_posibles == 1) {
+                    filas[num_celdas] = f;
+                    columnas[num_celdas] = c;
+                    valores[num_celdas] = valor_unico;
+                    num_celdas++;
                 }
             }
         }
+    }
+
+    // ahora ponemos las celdas que tenian un unico valor posible
+    // se hace despues para evitar que se vaya resolviendo en cadena
+    for (int i = 0; i < num_celdas; i++) {
+        pon_valor(filas[i], columnas[i], valores[i]);
     }
 }
 
